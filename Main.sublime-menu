@@ -1,0 +1,54 @@
+[
+    {
+        "caption": "Preferences",
+        "mnemonic": "n",
+        "id": "preferences",
+        "children":
+        [
+            {
+                "caption": "Package Settings",
+                "mnemonic": "P",
+                "id": "package-settings",
+                "children":
+                [
+                    {
+                        "caption": "Bicycle Repair",
+                        "children":
+                        [   
+                            {
+                                "command": "show_overlay",
+                                "args": {
+                                    "overlay": "command_palette",
+                                    "text": "Bicycle Repair:"
+                                },
+                                "caption": "Commands"
+                            },
+                            {"caption": "-"},
+                            {
+                                "command": "open_file",
+                                "args": {"file": "${packages}/SublimeBicycleRepair/sublime_bicycle_repair.sublime-settings"},
+                                "caption": "Settings – Default"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {"file": "${packages}/User/sublime_bycicle_repair.sublime-settings"},
+                                "caption": "Settings – User"
+                            },
+                            { "caption": "-" },
+                            {
+                                "command": "open_file",
+                                "args": {"file": "${packages}/SublimeBicycleRepair/Default.sublime-keymap"},
+                                "caption": "Keymap – Default"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {"file": "${packages}/User/Default.sublime-keymap"},
+                                "caption": "Keymap – User"
+                            }
+                       ]
+                    }
+                ]
+            }
+        ]
+    }
+]
