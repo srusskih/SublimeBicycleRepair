@@ -1,0 +1,10 @@
+[
+    {
+        "caption": "Bicycle Repair: Rename",
+        "command": "bicycle_repair_rename"
+    },
+    {
+        "caption": "Bicycle Repair: Undo the last refactoring",
+        "command": "bicycle_repair_undo_last_refactoring"
+    }
+]

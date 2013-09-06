@@ -1,0 +1,4 @@
+{
+   // debug, info, error
+   "logging_level": "debug"
+}

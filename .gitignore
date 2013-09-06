@@ -34,5 +34,5 @@ nosetests.xml
 .project
 .pydevproject
 *.sw[op]
-*.sublime*
+*.sublime/
 *.idea
