@@ -77,6 +77,7 @@ class BikeFacade:
             bikectx.undo()
         except bike.UndoStackEmptyException:
             return "UndoStackEmptyException"
+        return bikectx.save()
 
 
 def process_line(line):

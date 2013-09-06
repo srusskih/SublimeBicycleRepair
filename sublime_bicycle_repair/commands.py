@@ -59,5 +59,13 @@ class BicycleRepairUndoLastRefactoringCommand(PythonCommand):
             send_request('undo', self.view, {}, self.on_response)
 
     def on_response(self, view, content):
+        if not content:
+            # TODO
+            return
+
         if content == "UndoStackEmptyException":
             sublime.message_dialog("Bicycle Repair Man could not did undo")
+
+        window = view.window()
+        for file_name in content:
+            window.open_file(file_name)
