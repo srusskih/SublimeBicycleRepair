@@ -1,4 +1,6 @@
 {
    // debug, info, error
-   "logging_level": "debug"
+   "logging_level": "debug",
+   "python_interpreter_path": "python",
+   "python_package_paths": []
 }
