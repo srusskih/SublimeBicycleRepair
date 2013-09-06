@@ -4,13 +4,6 @@ import traceback
 from .settings import get_plugin_settings
 
 
-def getLogger(name, level=None):
-    if not level:
-        level = get_plugin_debug_level()
-    logger = Logger(name, level)
-    return logger
-
-
 def get_plugin_debug_level():
     default = 'error'
     settings = get_plugin_settings()
@@ -20,9 +13,15 @@ def get_plugin_debug_level():
 
 
 class Logger:
-    def __init__(self, name, level):
+    """
+    Sublime Console Logger that takes plugin settings
+    """
+    def __init__(self, name):
         self.name = str(name)
-        self.level = level
+
+    @property
+    def level(self):
+        return get_plugin_debug_level() 
 
     def _print(self, msg):
         print(': '.join([self.name, str(msg)]))
@@ -43,3 +42,6 @@ class Logger:
 
     def exception(self, msg):
         self.error(msg, exc_info=True)
+
+
+getLogger = Logger

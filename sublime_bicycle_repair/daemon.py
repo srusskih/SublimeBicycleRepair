@@ -3,7 +3,7 @@ import os
 import sys
 import json
 import logging
-from logging import handlers
+# from logging import handlers
 from optparse import OptionParser
 
 # add bike too sys.path
@@ -15,22 +15,25 @@ import bike
 sys.path.pop(0)
 
 
+class JsonFormatter(logging.Formatter):
+    def format(self, record):
+        output = super(JsonFormatter, self).format(record)
+        data = {
+            'logging': record.levelname.lower(),
+            'content': output
+        }
+        return json.dumps(data)
+
+
 def getLogger():
     """ Build file logger """
-    path = '/tmp/'  # TODO
-    log = logging.getLogger('')
+    log = logging.getLogger('BicycleRepairDaemon')
     log.setLevel(logging.DEBUG)
-    hdlr = handlers.RotatingFileHandler(
-        filename=os.path.join(path, 'daemon.log'),
-        maxBytes=10000000,
-        backupCount=5,
-        encoding='utf-8'
-    )
-    formatter = logging.Formatter('%(asctime)s: %(levelname)-8s: %(message)s')
+    formatter = JsonFormatter('%(asctime)s: %(levelname)-8s: %(message)s')
+    hdlr = logging.StreamHandler(sys.stderr)
     hdlr.setFormatter(formatter)
     log.addHandler(hdlr)
     return log
-
 
 logger = getLogger()
 bikectx = bike.init()
@@ -45,7 +48,6 @@ def write(data):
 
     if not data.endswith('\n'):
         sys.stdout.write('\n')
-
     try:
         sys.stdout.flush()
     except IOError:

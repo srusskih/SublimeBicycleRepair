@@ -3,14 +3,12 @@ import sublime_plugin
 from .utils import is_python_scope, send_request
 from .console_logging import getLogger
 
+logger = getLogger(__name__)
+
 
 class PythonCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         return is_python_scope(self.view, self.view.sel()[0].begin())
-
-    @property
-    def logger(self):
-        return getLogger(__name__)
 
 
 class BicycleRepairRenameCommand(PythonCommand):
@@ -33,7 +31,7 @@ class BicycleRepairRenameCommand(PythonCommand):
             column=column + 1,
             new_name=new_name
         )
-        self.logger.debug("rename({0})".format(kwargs))
+        logger.debug("rename({0})".format(kwargs))
         send_request('rename', self.view, kwargs, self.on_response)
 
     def on_response(self, view, content):

@@ -16,9 +16,7 @@ except ImportError:
 from .console_logging import getLogger
 from .settings import get_settings_param
 
-
-logger = lambda: getLogger(__name__)
-
+logger = getLogger(__name__)
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 PY3 = sys.version_info[0] == 3
 DAEMONS = defaultdict(dict)  # per window
@@ -48,21 +46,24 @@ class ThreadReader(BaseThread):
         while not self.done:
             line = self.fd.readline()
             if line:
-                logger().debug("Response {0}".format(line))
+                logger.debug("Response {0}".format(line))
                 try:
                     data = json.loads(line.strip())
                 except ValueError:
-                    self.call_callback(line)
+                    logger.exception(
+                        "Non JSON data from daemon: {0}".format(data)
+                    )
                 else:
                     self.call_callback(data)
 
     def call_callback(self, data):
+        """
+        Call callback for responsed data
 
-        if not isinstance(data, dict):
-            logger().exception(
-                "Non JSON data from daemon: {0}"
-                .format(data)
-            )
+        :type data: dict
+        """
+        if 'logging' in data:
+            getattr(logger, data['logging'])(data['content'])
             return
 
         with self.wait_lock:
@@ -125,14 +126,14 @@ class Daemon(object):
         for folder in extra_packages:
             sub_args.extend(['-e', folder])
 
-        logger().debug(
+        logger.debug(
             'Daemon called with next parameters: {0} {1}'
             .format(sub_args, sub_kwargs)
         )
         try:
             process = subprocess.Popen(sub_args, **sub_kwargs)
         except OSError:
-            logger().error(
+            logger.error(
                 'Daemon process failed with next parameters: {0} {1}'
                 .format(sub_args, sub_kwargs)
             )
@@ -150,7 +151,7 @@ class Daemon(object):
 
 
 def send_request(command, view, kwargs, callback):
-    logger().info('ask daemon for "{0}"'.format(command))
+    logger.info('ask daemon for "{0}"'.format(command))
 
     window_id = view.window().id()
     if window_id not in DAEMONS:
