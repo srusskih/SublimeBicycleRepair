@@ -51,7 +51,7 @@ class ThreadReader(BaseThread):
                     data = json.loads(line.strip())
                 except ValueError:
                     logger.exception(
-                        "Non JSON data from daemon: {0}".format(data)
+                        "Non JSON data from daemon: {0}".format(line)
                     )
                 else:
                     self.call_callback(data)

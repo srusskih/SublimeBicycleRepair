@@ -22,7 +22,8 @@ class JsonFormatter(logging.Formatter):
             'logging': record.levelname.lower(),
             'content': output
         }
-        return json.dumps(data)
+        record = json.dumps(data)
+        return record
 
 
 def getLogger():
@@ -35,8 +36,10 @@ def getLogger():
     log.addHandler(hdlr)
     return log
 
+
 logger = getLogger()
 bikectx = bike.init()
+#bikectx.setProgressLogger(sys.stderr)
 
 
 def write(data):
