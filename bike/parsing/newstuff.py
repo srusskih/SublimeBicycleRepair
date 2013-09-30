@@ -76,6 +76,8 @@ def getSourceNodesContainingRegex(regexstr,contextFilename):
         try:
             f = file(fname)
             src = f.read()
+        except Exception:
+            continue
         finally:
             f.close()
         if regex.search(src) is not None:
